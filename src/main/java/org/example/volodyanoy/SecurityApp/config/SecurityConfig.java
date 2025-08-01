@@ -28,12 +28,17 @@ public class SecurityConfig {
     // основной бин для фильтра безопасности
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults()) //дефолтная форма логина
+                .formLogin(form ->
+                        form.loginPage("/auth/login").loginProcessingUrl("/process_login")
+                                .defaultSuccessUrl("/hello", true)
+                                .failureUrl("/auth/login?error")
+                                .permitAll()
+                ) //кастомная форма логина
                 .logout(Customizer.withDefaults());   //дефолтный logout
 
         return http.build();
