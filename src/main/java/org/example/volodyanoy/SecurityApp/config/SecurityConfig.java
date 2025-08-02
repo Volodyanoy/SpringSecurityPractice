@@ -39,7 +39,11 @@ public class SecurityConfig {
                                 .failureUrl("/auth/login?error")
                                 .permitAll()
                 ) //кастомная форма логина
-                .logout(Customizer.withDefaults());   //дефолтный logout
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/auth/login")
+                        .permitAll()
+                );
 
         return http.build();
     }
