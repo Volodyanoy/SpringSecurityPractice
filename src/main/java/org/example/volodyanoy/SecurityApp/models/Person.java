@@ -25,6 +25,9 @@ public class Person {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "role")
+    private String role;
+
     public Person(){}
 
     @Override
@@ -40,6 +43,22 @@ public class Person {
     public Person(String username, int yearOfBirth) {
         this.username = username;
         this.yearOfBirth = yearOfBirth;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
