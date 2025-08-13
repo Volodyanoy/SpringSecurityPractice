@@ -3,38 +3,31 @@ package org.example.volodyanoy.SecurityApp.controllers;
 import org.example.volodyanoy.SecurityApp.security.PersonDetails;
 import org.example.volodyanoy.SecurityApp.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-public class HelloController {
+@RestController
+public class RESTUsersController {
     private final AdminService adminService;
 
     @Autowired
-    public HelloController(AdminService adminService) {
+    public RESTUsersController(AdminService adminService) {
         this.adminService = adminService;
-    }
-
-    @GetMapping("/hello")
-    public String sayHello(){
-        return "hello";
     }
 
     @GetMapping("/showUserInfo")
     public String showUserInfo(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-        System.out.println(personDetails.getPerson());
-        return "hello";
+
+        return personDetails.getUsername();
     }
 
     @GetMapping("/admin")
     public String adminPage(){
 
-        adminService.doAdminStuff();
-        return "admin";
+        return adminService.doAdminStuff();
     }
 }
